@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispatching & Delivery Scheduling — Fuse Specialty Appliances and Plumbing</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #1a1a1a;
+    background: #f7f7f5;
+    padding: 2rem 1rem;
+  }
+
+  .lesson-wrapper {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0ded8;
+    overflow: hidden;
+  }
+
+  /* HERO */
+  .lesson-hero {
+    background: linear-gradient(135deg, #1a2e3b 0%, #2a4456 100%);
+    color: #fff;
+    padding: 2.5rem 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .lesson-hero::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(126, 184, 212, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .lesson-hero .brand-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7eb8d4;
+    margin-bottom: 0.5rem;
+  }
+  .lesson-hero h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .lesson-hero .hero-tagline {
+    font-size: 15px;
+    color: #c4dae6;
+    font-style: italic;
+    margin-bottom: 1.25rem;
+  }
+  .lesson-hero .lesson-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #a8c4d4;
+  }
+
+  /* WELCOME */
+  .welcome-block {
+    padding: 2rem 2.5rem 0.5rem;
+    border-bottom: 1px solid #f0efeb;
+  }
+  .welcome-block h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a2e3b;
+    margin-bottom: 0.75rem;
+  }
+  .welcome-block p {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  /* OBJECTIVES */
+  .objectives-block {
+    background: #f5f2fc;
+    margin: 1.5rem 2.5rem 2rem;
+    padding: 1.5rem 1.75rem;
+    border-radius: 12px;
+    border-left: 4px solid #6b4fa8;
+  }
+  .objectives-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #5a3d93;
+    margin-bottom: 0.75rem;
+  }
+  .objectives-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1a2e3b;
+    margin-bottom: 0.9rem;
+  }
+  .objectives-list { list-style: none; }
+  .objectives-list li {
+    padding: 0.35rem 0 0.35rem 1.75rem;
+    position: relative;
+    font-size: 14px;
+    color: #333;
+  }
+  .objectives-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    color: #6b4fa8;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* TOC */
+  .toc-block {
+    background: #f0f6fa;
+    border-left: 4px solid #1a7aad;
+    margin: 0 2.5rem 2rem;
+    padding: 1.5rem 1.75rem;
+    border-radius: 0 12px 12px 0;
+  }
+  .toc-block h2 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a7aad;
+    margin-bottom: 1rem;
+  }
+  .toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 2rem;
+  }
+  .toc-list li { font-size: 14px; color: #1a2e3b; }
+  .toc-list li a {
+    color: #1a7aad;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toc-list li a:hover { text-decoration: underline; }
+  .toc-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #1a7aad;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .lesson-body { padding: 0 2.5rem 3rem; }
+
+  .section { margin-bottom: 3rem; scroll-margin-top: 1rem; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e8e6e0;
+  }
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: #1a2e3b;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 21px;
+    font-weight: 600;
+    color: #1a2e3b;
+  }
+  .section-intro {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  /* SCENARIO */
+  .scenario-box {
+    background: linear-gradient(135deg, #fff9ee 0%, #fef4e0 100%);
+    border: 1px solid #f3dab0;
+    border-radius: 10px;
+    padding: 1.1rem 1.35rem;
+    margin: 1rem 0;
+  }
+  .scenario-label {
+    display: inline-block;
+    background: #d89322;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .scenario-box p {
+    font-size: 14px;
+    color: #4a3a14;
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* GLOSSARY */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .glossary-card {
+    border: 1px solid #e0ded8;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    background: #fafaf8;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .glossary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .glossary-term {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a7aad;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.3rem;
+  }
+  .glossary-def {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+  }
+  .glossary-tip {
+    font-size: 12px;
+    color: #6b4fa8;
+    margin-top: 0.4rem;
+    font-style: italic;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    border-left: 4px solid;
+  }
+  .callout-icon { font-size: 22px; line-height: 1.3; flex-shrink: 0; }
+  .callout-body { flex: 1; }
+  .callout-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+  .callout-text { font-size: 14px; line-height: 1.65; }
+  .callout.tip { background: #eef7ee; border-color: #3a9c4c; }
+  .callout.tip .callout-title { color: #2e7b3c; }
+  .callout.warning { background: #fef8ed; border-color: #d89322; }
+  .callout.warning .callout-title { color: #a06e14; }
+  .callout.info { background: #f0f6fa; border-color: #1a7aad; }
+  .callout.info .callout-title { color: #1a5e87; }
+  .callout.luxury {
+    background: linear-gradient(135deg, #f5f2fc 0%, #ede8f8 100%);
+    border-color: #6b4fa8;
+  }
+  .callout.luxury .callout-title { color: #5a3d93; }
+  .callout.uhoh { background: #fceeee; border-color: #d04848; }
+  .callout.uhoh .callout-title { color: #9a2929; }
+
+  /* STEP LIST */
+  .step-list { list-style: none; counter-reset: steps; }
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+    font-size: 15px;
+    align-items: flex-start;
+  }
+  .step-list li::before {
+    content: counter(steps);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    background: #1a7aad;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .step-list li strong { font-weight: 600; }
+
+  /* BULLET LIST */
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li {
+    padding: 0.4rem 0 0.4rem 1.5rem;
+    position: relative;
+    font-size: 15px;
+    color: #222;
+  }
+  .bullet-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 7px;
+    height: 7px;
+    background: #1a7aad;
+    border-radius: 50%;
+  }
+
+  /* SCHEDULE CARDS */
+  .sched-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 1.25rem 0;
+  }
+  .sched-card {
+    border: 1px solid #e0ded8;
+    border-radius: 12px;
+    padding: 1.25rem;
+    background: #fafaf8;
+  }
+  .sched-card.soft { border-top: 5px solid #3a9c4c; }
+  .sched-card.hard { border-top: 5px solid #d85a30; }
+  .sched-icon { font-size: 28px; margin-bottom: 0.5rem; }
+  .sched-card-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .sched-card.soft .sched-card-label { color: #2e7b3c; }
+  .sched-card.hard .sched-card-label { color: #993c1d; }
+  .sched-card p { font-size: 14px; color: #333; margin-bottom: 0.6rem; }
+  .sched-card .example {
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+    background: #fff;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #ebe9e3;
+  }
+
+  /* PROCESS FLOW */
+  .process-flow { margin: 1.25rem 0; }
+  .process-step { display: flex; align-items: flex-start; gap: 1rem; }
+  .flow-line-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .flow-dot {
+    width: 16px;
+    height: 16px;
+    background: #1a7aad;
+    border-radius: 50%;
+    margin-top: 5px;
+    border: 3px solid #d5e8f0;
+  }
+  .flow-line { width: 2px; background: #b8d4e8; flex: 1; min-height: 32px; }
+  .process-step:last-child .flow-line { display: none; }
+  .flow-content { padding-bottom: 1.25rem; flex: 1; }
+  .flow-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a2e3b;
+  }
+  .flow-content span { font-size: 13px; color: #555; line-height: 1.55; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin: 0.75rem 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.55rem 0;
+    font-size: 14px;
+    color: #222;
+    border-bottom: 1px solid #f0efeb;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid #b0c9d6;
+    border-radius: 5px;
+    margin-top: 1px;
+    background: #fff;
+  }
+
+  /* WIN MOMENT */
+  .win-moment {
+    background: linear-gradient(135deg, #eaf5ec 0%, #d8edd9 100%);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .win-icon { font-size: 36px; flex-shrink: 0; }
+  .win-content h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2e7b3c;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .win-content p { font-size: 14px; color: #2b4a2f; line-height: 1.55; }
+
+  /* PRO TIP */
+  .pro-tip {
+    background: #1a2e3b;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1.1rem 1.35rem;
+    margin: 1.25rem 0;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+  .pro-tip-tag {
+    background: #7eb8d4;
+    color: #1a2e3b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .pro-tip p { font-size: 14px; line-height: 1.6; color: #d4e8f0; }
+
+  /* IORAD */
+  .iorad-block {
+    background: linear-gradient(135deg, #1a2e3b 0%, #2a4456 100%);
+    border-radius: 14px;
+    padding: 2rem 2.25rem;
+    margin: 2.5rem 0 0;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .iorad-block::before {
+    content: '';
+    position: absolute;
+    right: -50px;
+    top: -50px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(126, 184, 212, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .iorad-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+  .iorad-badge {
+    background: #1a7aad;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 6px;
+  }
+  .iorad-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .iorad-subtitle {
+    font-size: 14px;
+    color: #c4dae6;
+    margin-bottom: 1.5rem;
+    line-height: 1.65;
+    position: relative;
+  }
+  .iorad-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+    position: relative;
+  }
+  .iorad-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 14px;
+    color: #d4e8f0;
+    background: rgba(255,255,255,0.04);
+    padding: 0.55rem 0.85rem;
+    border-radius: 6px;
+  }
+  .iorad-list li::before {
+    content: '▶';
+    color: #7eb8d4;
+    font-size: 10px;
+  }
+  .iorad-placeholder {
+    background: rgba(255,255,255,0.05);
+    border: 2px dashed #3d6478;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #7eb8d4;
+    font-size: 13px;
+    position: relative;
+  }
+  .iorad-placeholder strong {
+    display: block;
+    font-size: 15px;
+    color: #c4dae6;
+    margin-bottom: 0.25rem;
+  }
+
+  /* KNOWLEDGE CHECK */
+  .knowledge-check {
+    background: linear-gradient(135deg, #faf8ff 0%, #f5f0fa 100%);
+    border: 1px solid #d9cdf0;
+    border-radius: 14px;
+    padding: 1.75rem 2rem;
+    margin-top: 2.5rem;
+  }
+  .kc-emoji { font-size: 28px; margin-bottom: 0.5rem; }
+  .kc-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #6b4fa8;
+    margin-bottom: 0.4rem;
+  }
+  .kc-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #1a2e3b;
+    margin-bottom: 0.4rem;
+  }
+  .kc-intro {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+  .kc-questions {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .kc-questions li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ebe5f5;
+  }
+  .kc-q-num {
+    min-width: 26px;
+    height: 26px;
+    background: #6b4fa8;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* CELEBRATION */
+  .celebration {
+    text-align: center;
+    padding: 2rem 1rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid #e8e6e0;
+  }
+  .celebration-icon { font-size: 42px; margin-bottom: 0.5rem; }
+  .celebration h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a2e3b;
+    margin-bottom: 0.5rem;
+  }
+  .celebration p {
+    font-size: 15px;
+    color: #555;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: #e8e6e0;
+    margin: 2rem 0;
+  }
+
+  .role-badge {
+    display: inline-block;
+    background: #eef3f7;
+    color: #1a5e87;
+    border: 1px solid #b8d4e8;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* DID YOU KNOW */
+  .did-you-know {
+    background: #fff;
+    border: 1px solid #e0ded8;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+  .dyk-emoji { font-size: 24px; flex-shrink: 0; }
+  .dyk-content strong {
+    display: block;
+    font-size: 13px;
+    color: #1a7aad;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+  .dyk-content p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .lesson-wrapper { border: none; box-shadow: none; }
+  }
+
+  @media (max-width: 600px) {
+    .lesson-body, .welcome-block { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .lesson-hero { padding: 1.75rem 1.25rem; }
+    .objectives-block, .toc-block { margin-left: 1.25rem; margin-right: 1.25rem; }
+    .toc-list { grid-template-columns: 1fr; }
+    .glossary-grid { grid-template-columns: 1fr; }
+    .sched-cards { grid-template-columns: 1fr; }
+    .iorad-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lesson-wrapper">
+
+  <!-- HERO -->
+  <div class="lesson-hero">
+    <div class="brand-tag">Fuse Specialty Appliances and Plumbing — Dispatch Team Training</div>
+    <h1>Dispatching &amp; Delivery Scheduling</h1>
+    <div class="hero-tagline">"The art of getting the right appliance to the right home, at the right time, with the right smile."</div>
+    <div class="lesson-meta">
+      <span>📚 Lesson 1 — Dispatch Series</span>
+      <span>👥 Dispatch Team</span>
+      <span>⏱ ~20 min read</span>
+    </div>
+  </div>
+
+  <!-- WELCOME -->
+  <div class="welcome-block">
+    <h2>Welcome to the command center 🚛</h2>
+    <p>Think of dispatching as conducting an orchestra. Every truck, every installer, every customer note, every map zone — they all need to come together in perfect timing. When it works, our clients feel like Fuse anticipated their every need. When it doesn't… well, that's why you're here.</p>
+    <p>Our clients didn't just buy an appliance. They invested in an <em>experience</em>. And the dispatch team is the conductor that makes the whole symphony land. No pressure. 😉</p>
+  </div>
+
+  <!-- OBJECTIVES -->
+  <div class="objectives-block">
+    <div class="objectives-label">🎯 What you'll walk away with</div>
+    <div class="objectives-title">By the end of this lesson, you'll be able to:</div>
+    <ul class="objectives-list">
+      <li>Navigate the Delivery Scheduler with confidence</li>
+      <li>Tell the difference between Soft and Hard schedules (and use them correctly)</li>
+      <li>Build truck routes that are efficient AND realistic</li>
+      <li>Communicate with customers in a way that feels effortlessly Fuse</li>
+      <li>Handle reschedules, returns, and damaged items without breaking a sweat</li>
+      <li>Finalize invoices that are clean, accurate, and audit-ready</li>
+    </ul>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc-block">
+    <h2>🗺 Your lesson roadmap</h2>
+    <ul class="toc-list">
+      <li><a href="#section-overview"><span class="toc-num">1</span> Why dispatch matters</a></li>
+      <li><a href="#section-glossary"><span class="toc-num">2</span> Speak the language</a></li>
+      <li><a href="#section-responsibilities"><span class="toc-num">3</span> Your mission</a></li>
+      <li><a href="#section-scheduling"><span class="toc-num">4</span> Scheduling like a pro</a></li>
+      <li><a href="#section-order-scheduling"><span class="toc-num">5</span> Soft vs. Hard</a></li>
+      <li><a href="#section-communication"><span class="toc-num">6</span> The Fuse touch</a></li>
+      <li><a href="#section-rescheduling"><span class="toc-num">7</span> When plans change</a></li>
+      <li><a href="#section-returns"><span class="toc-num">8</span> Returns &amp; damages</a></li>
+      <li><a href="#section-invoicing"><span class="toc-num">9</span> Finishing strong</a></li>
+      <li><a href="#section-qc"><span class="toc-num">10</span> Daily QC ritual</a></li>
+    </ul>
+  </div>
+
+  <!-- BODY -->
+  <div class="lesson-body">
+
+    <!-- 1 -->
+    <div class="section" id="section-overview">
+      <div class="section-header">
+        <span class="section-num">1</span>
+        <h2>Why dispatch matters</h2>
+      </div>
+
+      <p class="section-intro">Here's the truth: our clients have options. They could order from anywhere. They chose Fuse because they expect a certain caliber of service — the kind where things just <em>work</em>. Dispatch is where that promise gets delivered (literally).</p>
+
+      <div class="callout luxury">
+        <span class="callout-icon">✦</span>
+        <div class="callout-body">
+          <div class="callout-title">The Fuse Standard</div>
+          <div class="callout-text">Every delivery interaction is an extension of our brand. Precise scheduling, proactive communication, and accurate documentation aren't just tasks — they're what our clients experience and remember. A perfectly executed delivery is the kind of moment that earns referrals.</div>
+        </div>
+      </div>
+
+      <div class="scenario-box">
+        <span class="scenario-label">🎬 Picture this</span>
+        <p>A client is renovating a $3M home. The Sub-Zero refrigerator is scheduled for delivery Tuesday at 10 AM — but the install team is held up at another job. Without proactive dispatch communication, the client waits, gets frustrated, and posts a one-star review. <strong>With</strong> proactive dispatch communication, you call ahead, reset expectations, and the client thanks you for the heads-up. Same situation, two completely different outcomes.</p>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 2 -->
+    <div class="section" id="section-glossary">
+      <div class="section-header">
+        <span class="section-num">2</span>
+        <h2>Speak the language 📖</h2>
+      </div>
+
+      <p class="section-intro">Every team has its own vocabulary. Here's yours. You'll hear these terms thrown around constantly, so let's get them locked in.</p>
+
+      <div class="glossary-grid">
+        <div class="glossary-card">
+          <div class="glossary-term">Delivery Scheduler</div>
+          <div class="glossary-def">The system tool you'll basically live in. It's where you view, assign, route, and lock every delivery to a truck and date.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Soft Schedule</div>
+          <div class="glossary-def">Delivery is set for a date, but no specific time. Flexible.</div>
+          <div class="glossary-tip">Think: "Sometime Tuesday."</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Hard Schedule</div>
+          <div class="glossary-def">Delivery is locked to a specific date AND time. Non-negotiable.</div>
+          <div class="glossary-tip">Think: "Tuesday at 10 AM sharp."</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Map Zone</div>
+          <div class="glossary-def">A geographic grouping that helps cluster stops together so trucks aren't zigzagging across town.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Unscheduled Orders</div>
+          <div class="glossary-def">Orders that are ready to be routed but haven't been assigned yet. Your daily to-do list.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Locked Order</div>
+          <div class="glossary-def">An order that's been finalized in the scheduler. Don't touch it unless you have authorization.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">PAI</div>
+          <div class="glossary-def">The system that sends automated delivery confirmations and reminders to customers.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Split Invoice</div>
+          <div class="glossary-def">When items on one order are delivered or installed separately. Requires its own little scheduling dance.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Delivery Window</div>
+          <div class="glossary-def">The time range you promise the customer. Realistic + non-overlapping = happy customers.</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">Route Optimization</div>
+          <div class="glossary-def">The art of sequencing stops so trucks aren't wasting time. Less driving = more deliveries = more revenue.</div>
+        </div>
+      </div>
+
+      <div class="did-you-know">
+        <span class="dyk-emoji">💡</span>
+        <div class="dyk-content">
+          <strong>Pro tip</strong>
+          <p>Bookmark this section. Seriously. Even seasoned dispatchers reference it. There's no shame in double-checking — there's only shame in guessing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 3 -->
+    <div class="section" id="section-responsibilities">
+      <div class="section-header">
+        <span class="section-num">3</span>
+        <h2>Your mission, should you choose to accept it</h2>
+      </div>
+
+      <p class="section-intro">
+        <span class="role-badge">Dispatch Team</span><br><br>
+        You're the air traffic controller for every appliance that leaves our warehouse. Here's what's on your plate:
+      </p>
+
+      <ul class="bullet-list">
+        <li>Managing and maintaining the Delivery Scheduler (it's your domain)</li>
+        <li>Assigning orders to trucks and clearing the Unscheduled Orders list daily</li>
+        <li>Planning and optimizing delivery routes by map zone</li>
+        <li>Reviewing customer notes for time specifications, requested installers, special instructions, and equipment needs</li>
+        <li>Sending confirmations and reminders via PAI</li>
+        <li>Coordinating reschedules and customer follow-ups</li>
+        <li>Supporting clean, accurate invoicing</li>
+      </ul>
+
+      <div class="callout uhoh">
+        <span class="callout-icon">🚨</span>
+        <div class="callout-body">
+          <div class="callout-title">The #1 dispatch sin</div>
+          <div class="callout-text">Skipping customer notes. A note might say "client requested James as installer" or "deliver before 11 AM — concierge access only." Miss it, and you're sending a truck on a wasted trip. Always. Read. The. Notes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 4 -->
+    <div class="section" id="section-scheduling">
+      <div class="section-header">
+        <span class="section-num">4</span>
+        <h2>Scheduling deliveries like a pro</h2>
+      </div>
+
+      <p class="section-intro">Here's the bulk-scheduling workflow you'll run when you're routing deliveries in the Delivery Scheduler. Follow it in order — each step builds on the last.</p>
+
+      <ol class="step-list">
+        <li><strong>Pull up all orders ready to route</strong> in the Delivery Scheduler.</li>
+        <li><strong>Pick your delivery date</strong> — the one you're scheduling for.</li>
+        <li><strong>Sort orders by map zone</strong> so you can group nearby stops together.</li>
+        <li><strong>Assign unassigned orders</strong> to the right trucks (zone, capacity, installer needs).</li>
+        <li><strong>Sweep the Unscheduled Orders list</strong> and schedule anything still hanging out.</li>
+        <li><strong>Verify with the color check</strong> — confirm orders are assigned by looking at the truck color display.</li>
+        <li><strong>Assign delivery times</strong> with realistic, non-overlapping windows.</li>
+        <li><strong>Lock everything</strong> once scheduling is final.</li>
+        <li><strong>Double-check each truck</strong> for time conflicts, route flow, and capacity.</li>
+      </ol>
+
+      <div class="callout info">
+        <span class="callout-icon">🔍</span>
+        <div class="callout-body">
+          <div class="callout-title">Need to find a delivery later?</div>
+          <div class="callout-text">You can search by customer name, order number, delivery date, or assigned truck. Four ways in — no excuse to lose track of an order.</div>
+        </div>
+      </div>
+
+      <div class="pro-tip">
+        <span class="pro-tip-tag">Pro tip</span>
+        <p>Build routes the way a luxury concierge plans an evening — every stop should flow logically into the next. If you find yourself zigzagging across map zones, stop and re-zone. Your drivers (and your fuel budget) will thank you.</p>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 5 -->
+    <div class="section" id="section-order-scheduling">
+      <div class="section-header">
+        <span class="section-num">5</span>
+        <h2>Soft vs. Hard schedules: know the difference</h2>
+      </div>
+
+      <p class="section-intro">When scheduling directly on an order (instead of bulk-scheduling), the big decision is: Soft or Hard? Get this right, and the rest falls into place.</p>
+
+      <ol class="step-list">
+        <li><strong>Confirm product availability</strong> before promising any date. Never offer what you can't deliver.</li>
+        <li><strong>Call the customer</strong> to confirm their preferred date.</li>
+        <li><strong>Open the order</strong> and select the Delivery Date field.</li>
+        <li><strong>Choose Soft or Hard</strong> (see below 👇).</li>
+        <li><strong>Assign a specific truck and time</strong> if you have permission to.</li>
+        <li><strong>Save the order.</strong> Done.</li>
+      </ol>
+
+      <div class="sched-cards">
+        <div class="sched-card soft">
+          <div class="sched-icon">🌤</div>
+          <div class="sched-card-label">Soft Schedule</div>
+          <p>Date is set, time is flexible. Use when the client is easy-going about timing.</p>
+          <div class="example">"Tuesday works great, anytime!"</div>
+        </div>
+        <div class="sched-card hard">
+          <div class="sched-icon">⏰</div>
+          <div class="sched-card-label">Hard Schedule</div>
+          <p>Date AND time are locked in. Use when the client has a specific window. Always takes priority during routing.</p>
+          <div class="example">"Has to be Tuesday between 10 and 11 AM."</div>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Don't over-promise on Hard schedules</div>
+          <div class="callout-text">Every Hard schedule constrains the rest of your route. Three Hards in one zone? Fine. Three Hards across three different zones? You're setting up your drivers (and your customers) for a bad day.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 6 -->
+    <div class="section" id="section-communication">
+      <div class="section-header">
+        <span class="section-num">6</span>
+        <h2>The Fuse touch: customer communication</h2>
+      </div>
+
+      <p class="section-intro">This is where Fuse separates itself from the pack. Most companies surprise the customer on delivery day. We prepare them.</p>
+
+      <div class="callout luxury">
+        <span class="callout-icon">✦</span>
+        <div class="callout-body">
+          <div class="callout-title">The Fuse Standard</div>
+          <div class="callout-text">Our clients invest in premium products and expect to feel informed and valued at every step. A timely confirmation isn't just operational — it's a touchpoint that reinforces "I made the right choice with Fuse."</div>
+        </div>
+      </div>
+
+      <p class="section-intro" style="margin-top:1rem;">Every PAI confirmation should include these four ingredients:</p>
+
+      <ul class="bullet-list">
+        <li>✅ Confirmed delivery date</li>
+        <li>✅ Estimated delivery window</li>
+        <li>✅ Fuse contact info for questions or changes</li>
+        <li>✅ Any special instructions for that specific delivery</li>
+      </ul>
+
+      <p class="section-intro" style="margin-top:1.5rem;">Here's the communication flow at a glance:</p>
+
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="flow-line-wrap"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-content"><strong>Order scheduled (D/I confirmed)</strong><span>Triggers the initial confirmation via PAI.</span></div>
+        </div>
+        <div class="process-step">
+          <div class="flow-line-wrap"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-content"><strong>Reminder sent before delivery day</strong><span>Reinforces the window and gives the client a chance to flag last-minute issues.</span></div>
+        </div>
+        <div class="process-step">
+          <div class="flow-line-wrap"><div class="flow-dot"></div><div class="flow-line"></div></div>
+          <div class="flow-content"><strong>Every touchpoint is documented</strong><span>Log each communication in the order record. If it's not written down, it didn't happen.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 7 -->
+    <div class="section" id="section-rescheduling">
+      <div class="section-header">
+        <span class="section-num">7</span>
+        <h2>When plans change: reschedules &amp; updates</h2>
+      </div>
+
+      <p class="section-intro">Life happens. Trucks break down. Customers go on vacation. Contractors push installs. Your job isn't to prevent reschedules — it's to handle them so smoothly the customer barely notices the change.</p>
+
+      <ol class="step-list">
+        <li><strong>Take the request</strong> (via phone or email).</li>
+        <li><strong>Confirm the new date and time</strong> with the customer before doing anything else.</li>
+        <li><strong>Update the order</strong> with the new delivery info.</li>
+        <li><strong>Re-assign to the right truck</strong> for the new date.</li>
+        <li><strong>Lock the updated schedule.</strong></li>
+        <li><strong>Send a new confirmation</strong> via PAI so the customer has it in writing.</li>
+        <li><strong>Document the reason</strong> in the order notes — future-you will thank present-you.</li>
+      </ol>
+
+      <div class="callout warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <div class="callout-title">Split invoices need extra love</div>
+          <div class="callout-text">When you're splitting an invoice, follow up with the customer to schedule the affected items, assign them to the right truck, set delivery times, lock the order, AND send a new confirmation — all <em>before</em> finalizing the invoice. Don't skip steps; you'll create more work later.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 8 -->
+    <div class="section" id="section-returns">
+      <div class="section-header">
+        <span class="section-num">8</span>
+        <h2>Returns &amp; damaged items: handle with care</h2>
+      </div>
+
+      <p class="section-intro">Sometimes an appliance arrives damaged. Sometimes the client changes their mind. Either way, how we respond determines whether they buy from us again.</p>
+
+      <ul class="bullet-list">
+        <li>Document the return or damage in the system <em>immediately</em></li>
+        <li>Loop in the right departments (operations, warehouse, sales)</li>
+        <li>Arrange pickups or replacements as needed</li>
+        <li>Make sure invoice adjustments reflect what actually happened</li>
+      </ul>
+
+      <div class="callout uhoh">
+        <span class="callout-icon">🚨</span>
+        <div class="callout-body">
+          <div class="callout-title">Document first, act second</div>
+          <div class="callout-text">An undocumented return is an invoicing time bomb. The customer might be charged for something they returned, or we might lose the item in the system entirely. Always record before you do anything else.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 9 -->
+    <div class="section" id="section-invoicing">
+      <div class="section-header">
+        <span class="section-num">9</span>
+        <h2>Finishing strong: finalizing invoices</h2>
+      </div>
+
+      <p class="section-intro">An invoice is the last impression you leave on a transaction. Make it clean. Walk through this checklist before you finalize anything:</p>
+
+      <ul class="checklist">
+        <li><div class="check-box"></div> Delivery completion confirmed ✓</li>
+        <li><div class="check-box"></div> All delivery details accurate in the system ✓</li>
+        <li><div class="check-box"></div> Returns and damages documented and reflected ✓</li>
+        <li><div class="check-box"></div> Split invoice items addressed and scheduled ✓</li>
+        <li><div class="check-box"></div> Invoice matches Fuse billing procedures ✓</li>
+      </ul>
+
+      <div class="win-moment">
+        <span class="win-icon">🏆</span>
+        <div class="win-content">
+          <h4>Win of the day</h4>
+          <p>A clean, accurate invoice on the first pass is one of the most satisfying things in dispatch. No callbacks. No corrections. Just done. Aim for this every single time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- 10 -->
+    <div class="section" id="section-qc">
+      <div class="section-header">
+        <span class="section-num">10</span>
+        <h2>Daily QC ritual ☕</h2>
+      </div>
+
+      <p class="section-intro">Before you wrap up each day, run through this quick check. Five minutes here saves hours of cleanup tomorrow.</p>
+
+      <ul class="checklist">
+        <li><div class="check-box"></div> All today's orders are scheduled and assigned</li>
+        <li><div class="check-box"></div> Trucks are balanced (no one's overloaded while another sits empty)</li>
+        <li><div class="check-box"></div> Routes are optimized by map zone</li>
+        <li><div class="check-box"></div> Customers have been notified (confirmations + reminders sent)</li>
+        <li><div class="check-box"></div> Zero time conflicts on any truck</li>
+        <li><div class="check-box"></div> Unscheduled Orders list reviewed and cleared</li>
+      </ul>
+
+      <div class="did-you-know">
+        <span class="dyk-emoji">☕</span>
+        <div class="dyk-content">
+          <strong>Make it a habit</strong>
+          <p>Some of our best dispatchers run their QC review with their morning coffee or end-of-day wrap-up. Find your rhythm — just don't skip it.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KNOWLEDGE CHECK -->
+    <div class="knowledge-check">
+      <div class="kc-emoji">🧠</div>
+      <div class="kc-label">Knowledge check</div>
+      <div class="kc-title">Quick — without scrolling back!</div>
+      <div class="kc-intro">If you can answer all five of these, you're ready to roll. Stuck on any? Scroll back up, no shame.</div>
+      <ul class="kc-questions">
+        <li><span class="kc-q-num">1</span> What's the difference between a Soft and Hard schedule, and when would you use each?</li>
+        <li><span class="kc-q-num">2</span> Name the four things every PAI confirmation should include.</li>
+        <li><span class="kc-q-num">3</span> What's the #1 dispatch sin? (Hint: skipping something important on every order.)</li>
+        <li><span class="kc-q-num">4</span> What five boxes must be checked before you finalize an invoice?</li>
+        <li><span class="kc-q-num">5</span> Walk through the seven steps of handling a reschedule, in order.</li>
+      </ul>
+    </div>
+
+    <!-- IORAD -->
+    <div class="iorad-block">
+      <div class="iorad-header">
+        <span class="iorad-badge">🎥 Iorad Walkthroughs</span>
+      </div>
+      <div class="iorad-title">Now let's see it in action</div>
+      <div class="iorad-subtitle">Reading is one thing — clicking through the real system is another. These Iorad walkthroughs put everything you just learned into practice. Take them in order, or jump to what you need.</div>
+
+      <ul class="iorad-list">
+        <li>Scheduling deliveries in the Delivery Scheduler</li>
+        <li>Assigning orders to trucks by map zone</li>
+        <li>Scheduling directly on an order (Soft &amp; Hard)</li>
+        <li>Sending a confirmation via PAI</li>
+        <li>Rescheduling a delivery</li>
+        <li>Documenting a return or damaged item</li>
+        <li>Finalizing an invoice</li>
+        <li>Running the daily QC review</li>
+      </ul>
+
+      <div class="iorad-placeholder">
+        <strong>📎 Drop your Iorad links here</strong>
+        Embed each walkthrough below in Trainual under its matching topic.
+      </div>
+    </div>
+
+    <!-- CELEBRATION -->
+    <div class="celebration">
+      <div class="celebration-icon">🎉</div>
+      <h3>You did it!</h3>
+      <p>You're officially equipped to keep Fuse running like the well-oiled luxury machine our clients expect. Next stop: the Iorad walkthroughs, and then real-world practice. Welcome to the dispatch team — we're glad you're here.</p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
